@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Alert, Text, View, StyleSheet } from "react-native";
 import MapView from "react-native-maps";
 import * as Location from 'expo-location';
@@ -12,11 +12,11 @@ const goToCurrentLocation = async () => {
     return;
   }
 
-  // Verkrijg de huidige locatie
+
   let location = await Location.getCurrentPositionAsync({});
   const { latitude, longitude } = location.coords;
 
-  // Verplaats de kaart naar de huidige locatie
+  
   mapRef.current?.animateToRegion({
     latitude,
     longitude,
@@ -26,7 +26,6 @@ const goToCurrentLocation = async () => {
 };
 
 const showLocationPrompt = () => {
-  // Toon een pop-up met een vraag of ze hun locatie willen delen
   Alert.alert(
     "Locatie delen",
     "Wil je je huidige locatie delen en naar de kaart gaan?",
@@ -45,20 +44,53 @@ const showLocationPrompt = () => {
   );
 };
 
+const startLocationTracking = async() => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+        console.log('premission denied');
+        return;
+    }
+
+    Location.watchPositionAsync(
+        {
+            accuracy: Location.Accuracy.High,
+            timeInterval: 1000,
+            distanceInterval: 1,
+        },
+        (Location) => {
+            const { latitude, longitude } = location.coords;
+
+            mapRef.current?.animateToRegion({
+                latitude,
+                longitude,
+                latitudeDelta: 0.015,
+                longitudeDelta: 0.0121,
+            });
+
+            setCurrentLopcation(location.coords);
+        }
+    );
+};
+
 export default function MapScreen() {
+    const [currentLocation, setCurrentLocation] = useState(null);
+
+    useEffect(() => {
+        showLocationPrompt();
+    }, []);
+
   return (
     <View style={styles.container}>
       <MapView
         style={styles.map}
         ref={mapRef}
         initialRegion={{
-          latitude: 51.91972, // Stel een standaard locatie in
+          latitude: 51.91972, 
           longitude: 4.47778,
           latitudeDelta: 0.015,
           longitudeDelta: 0.0121,
         }}
         showsUserLocation={true}
-        onMapReady={showLocationPrompt} // Toon de pop-up wanneer de kaart geladen is
       />
     </View>
   );
