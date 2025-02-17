@@ -10,16 +10,16 @@ export default function tabNavigator() {
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarLabelStyle: styles.tabLabel,  // Gebruik hier de stijl voor tab label
-        tabBarStyle: styles.tabBar,        // Gebruik hier de stijl voor tab bar
+        tabBarLabelStyle: styles.tabLabel,  
+        tabBarStyle: styles.tabBar,        
       }}
     >
       <Tab.Screen
         name="Map"
         component={MapScreen}
         options={{
-          headerStyle: styles.header,        // Pas de stijl van de header aan
-          headerTitleStyle: styles.headerTitle, // Pas de stijl van de header title aan
+          headerStyle: styles.header,        
+          headerTitleStyle: styles.headerTitle,
         }}
       />
       <Tab.Screen
@@ -42,12 +42,11 @@ const styles = StyleSheet.create({
   tabBar: {
     height: 60,
   },
-  header: {
-    backgroundColor: '#f8f8f8', 
-    height: 70,                 
+  header: { 
+    height: 40,                 
   },
   headerTitle: {
     fontSize: 20,               
-    fontWeight: '600',  
+    fontWeight: 'bold',  
   }       
 });

@@ -1,10 +1,23 @@
 import React from "react";
-import { Text, View } from "react-native";
+import MapView from "react-native-maps";
+import { Text, View, StyleSheet } from "react-native";
+
 
 export default function mapScreen() {
     return(
-        <View>
-            <Text>Map screen</Text>
+        <View style={styles.container}>
+            <MapView style={styles.map} />
         </View>
-    )
+    );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+
+    map: {
+        width: '100%',
+        height: '100%',
+    }
+});
