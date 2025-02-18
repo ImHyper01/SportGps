@@ -1,6 +1,6 @@
 import * as SQLite from 'expo-sqlite';
 
-const db = SQLite.openDatabase('routes.db');
+const db = SQLite.openDatabaseSync('routes.db');
 
 //creeer database tabel
 export const setupDatabase = () => {

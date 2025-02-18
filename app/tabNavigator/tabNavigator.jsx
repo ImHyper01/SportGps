@@ -1,8 +1,9 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Text, View, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import MapScreen from '../pages/mapScreen';
 import SettingScreen from '../pages/settingScreen';
+import saveRouteScreen from "../pages/savedRouteScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -30,6 +31,15 @@ export default function tabNavigator() {
           headerTitleStyle: styles.headerTitle,
         }}
       />
+      <Tab.Screen 
+        name="Route"
+        component={saveRouteScreen}
+        options={{
+          headerStyle: styles.header,
+          headerTitleStyle: styles.headerTitle,
+        }}
+      />
+
     </Tab.Navigator>
   );
 }
