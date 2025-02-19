@@ -2,7 +2,39 @@ import React, { useEffect, useRef, useState } from "react";
 import { Alert, View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import MapView, { Polyline } from "react-native-maps";
 import * as Location from "expo-location";
+import * as Notifications from 'expo-notifications';
+import * as TaskManager from 'expo-task-manager';
 import { setupDatabase, saveRoute, getRoutes } from "../database/database";
+
+const GEOFENCE_TASK = 'geofence-task';
+
+TaskManager.defineTask(GEOFENCE_TASK, ({ data, error }) => {
+  if (error) {
+    console.log('Geofence error:', error);
+    return;
+  }
+
+  if (data) {
+    const { eventType, region } = data;
+    let message = "";
+
+    if (eventType === Location.GeofencingEventType.Enter) {
+      message = `Je bent bij ${region.identifier} aangekomen!`;
+    } else if (eventType === Location.GeofencingEventType.Exit) {
+      message = `Je hebt ${region.identifier} verlaten!`;
+    }
+
+    if (message) {
+      Notifications.scheduleNotificationAsync({
+        content: {
+          title: 'Locatie update',
+          body: message,
+        },
+        trigger: null,
+      });
+    }
+  }
+});
 
 export default function MapScreen() {
   const [currentLocation, setCurrentLocation] = useState(null);
@@ -19,26 +51,68 @@ export default function MapScreen() {
       setSavedRoutes(routes);
     };
     initDB();
+    requestNotificationPermissions();
+    getCurrentLocation();
   }, []);
 
-  const goToCurrentLocation = async () => {
+  const requestNotificationPermissions = async () => {
+    const { status } = await Notifications.requestPermissionsAsync();
+    if (status !== 'granted') {
+      console.log('Notificatie premissie denied')
+      return;
+    }
+  };
+
+  const getCurrentLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== "granted") {
-      console.log("Permission denied");
+    if (status !== 'granted') {
+      console.log('locatiepremissie denied');
+      return;
+    } 
+    let location = await Location.getCurrentPositionAsync({});
+    setCurrentLocation({latitude: location.coords.latitude, longitude: location.coords.longitude});
+    setupGeofencing(location.coords.latitude, location.coords.longitude);
+  };
+
+  const setupGeofencing = async (latitude, longitude) => {
+    let { status: backgroundStatus} = await Location.requestBackgroundPermissionsAsync();
+    if (backgroundStatus !== 'granted') {
+      console.log('backgroundlocatie denied');
       return;
     }
 
-    let location = await Location.getCurrentPositionAsync({});
-    const { latitude, longitude } = location.coords;
+    const geofence = [
+      {
+        identifier: "Startlocatie",
+        latitude,
+        longitude,
+        radius: 50,
+        notifyOnEnter: false,
+        notifyOnExit: true,
+      },
+      {
+        identifier: "Supermarkt",
+        latitude: 51.9225,
+        longitude: 4.47917,
+        radius: 100,
+        notifyOnEnter: true,
+        notifyOnExit: false,
+      },
+    ];
 
-    mapRef.current?.animateToRegion({
-      latitude,
-      longitude,
-      latitudeDelta: 0.015,
-      longitudeDelta: 0.0121,
-    });
+    await Location.startGeofencingAsync(GEOFENCE_TASK, geofences);
+    console.log('Geofencing gestart!');
+  };
 
-    setCurrentLocation({ latitude, longitude });
+  const goToCurrentLocation = async () => {
+    if(currentLocation) {
+      mapRef.current?.animateToRegion({
+        latitude: currentLocation.latitude,
+        longitude: currentLocation.longitude,
+        latitudeDelta: 0.015,
+        longitudeDelta: 0.0121,
+      });
+    }
   };
 
   const startTracking = async () => {
@@ -92,8 +166,8 @@ export default function MapScreen() {
         style={styles.map}
         ref={mapRef}
         initialRegion={{
-          latitude: 51.91972,
-          longitude: 4.47778,
+          latitude: currentLocation?.latitude || 51.91972,
+          longitude: currentLocation?.longitude || 4.47778,
           latitudeDelta: 0.015,
           longitudeDelta: 0.0121,
         }}
@@ -123,11 +197,12 @@ const styles = StyleSheet.create({
   },
   map: {
     width: "100%",
-    height: "80%",
+    height: "90%",
+    marginBottom: '25%',
   },
   buttonContainer: {
     position: "absolute",
-    bottom: 50,
+    bottom: 30,
     flexDirection: "row",
     gap: 10,
   },
