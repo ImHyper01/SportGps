@@ -1,105 +1,90 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Alert, Text, View, StyleSheet, Button } from "react-native";
-import MapView , { Polyline } from "react-native-maps";
-import * as Location from 'expo-location';
-import { savedRoute, setupDatabase } from '../database/database';
+import { Alert, View, StyleSheet, TouchableOpacity, Text } from "react-native";
+import MapView, { Polyline } from "react-native-maps";
+import * as Location from "expo-location";
+import { setupDatabase, saveRoute, getRoutes } from "../database/database";
 
 export default function MapScreen() {
   const [currentLocation, setCurrentLocation] = useState(null);
-  const mapRef = useRef(null); 
-  const [route, setRoute] = useState([]);
   const [tracking, setTracking] = useState(false);
+  const [route, setRoute] = useState([]);
+  const [savedRoutes, setSavedRoutes] = useState([]);
+  const mapRef = useRef(null);
   let locationSubscription = useRef(null);
 
+  useEffect(() => {
+    const initDB = async () => {
+      await setupDatabase();
+      const routes = await getRoutes();
+      setSavedRoutes(routes);
+    };
+    initDB();
+  }, []);
 
   const goToCurrentLocation = async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-          console.log('Permission denied');
-          return;
-      }
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      console.log("Permission denied");
+      return;
+    }
 
-      let location = await Location.getCurrentPositionAsync({});
-      const { latitude, longitude } = location.coords;
+    let location = await Location.getCurrentPositionAsync({});
+    const { latitude, longitude } = location.coords;
 
-      mapRef.current?.animateToRegion({
+    mapRef.current?.animateToRegion({
+      latitude,
+      longitude,
+      latitudeDelta: 0.015,
+      longitudeDelta: 0.0121,
+    });
+
+    setCurrentLocation({ latitude, longitude });
+  };
+
+  const startTracking = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      console.log("Permission denied");
+      return;
+    }
+
+    setRoute([]); 
+    setTracking(true);
+
+    locationSubscription.current = await Location.watchPositionAsync(
+      {
+        accuracy: Location.Accuracy.High,
+        timeInterval: 1000,
+        distanceInterval: 1,
+      },
+      (location) => {
+        const { latitude, longitude } = location.coords;
+
+        mapRef.current?.animateToRegion({
           latitude,
           longitude,
           latitudeDelta: 0.015,
           longitudeDelta: 0.0121,
-      });
-
-      setCurrentLocation({ latitude, longitude });
-  };
-
-  const startLocationTracking = async () => {
-    let { status } = await Location.requestForegroundPermissionsAsync();
-    if ( status !== 'granted' ) {
-      console.log('Permission denied');
-      return;
-    }
-
-    locationSubscription.current = await location,Location.watchPositionAsync(
-      {
-        accuracy: Location.Accuracy.High,
-        timeInterval: 2000,
-        distanceInterval: 3,
-      },
-      (location) => {
-        const { latitude, longitude } = location.coords;
-        setRoute((prevRoute) => [...prevRoute, { latitude, longitude }]);
-        setCurrentLocation({ latitude, longitude });
-
-        mapRef.current?.animateToRegion({
-          latitude,
-          longitude, 
-          latitudeDelta: 0.015,
-          longitudeDelta: 0.0121,
         });
+
+        setRoute((prevRoute) => [...prevRoute, { latitude, longitude }]);
       }
     );
-    setTracking(true);
   };
 
-  const stopLocationTracking = () => {
+  const stopTracking = async () => {
     if (locationSubscription.current) {
       locationSubscription.current.remove();
       locationSubscription.current = null;
     }
+
     setTracking(false);
+
+    if (route.length > 0) {
+      await saveRoute(route);
+      console.log("Route saved!");
+    }
   };
-
-  const handleSaveRoute = () => {
-    if (route.lenght === 0 ) return;
-    savedRoute(route);
-    Alert.alert('Succes, Route is opgeslagen');
-    setRoute([]);
-  };
-
-  useEffect(() => {
-    setupDatabase();
-  }, []);
-
-  const showLocationPrompt = () => {
-      Alert.alert(
-          "Locatie delen",
-          "Wil je je huidige locatie delen?",
-          [
-              { text: "Nee", 
-              onPress: () => console.log("User declined"), 
-              style: "cancel" },
-
-              { text: "Ja", 
-              onPress: goToCurrentLocation }
-          ],
-
-          { cancelable: false }
-      );
-  };
-
-  useEffect(() => {
-      showLocationPrompt();
-  }, []);
 
   return (
     <View style={styles.container}>
@@ -107,7 +92,7 @@ export default function MapScreen() {
         style={styles.map}
         ref={mapRef}
         initialRegion={{
-          latitude: 51.91972, 
+          latitude: 51.91972,
           longitude: 4.47778,
           latitudeDelta: 0.015,
           longitudeDelta: 0.0121,
@@ -117,9 +102,14 @@ export default function MapScreen() {
         {route.length > 0 && <Polyline coordinates={route} strokeWidth={5} strokeColor="blue" />}
       </MapView>
 
-      <View style={styles.buttons}>
-        <Button title={tracking ? 'stop': 'start'} onPress={tracking ? stopLocationTracking : startLocationTracking} />
-        <Button title='Opslaan' onPress={handleSaveRoute} disabled={route.length === 0} />
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.button} onPress={goToCurrentLocation}>
+          <Text style={styles.buttonText}>Ga naar locatie</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={[styles.button, tracking ? styles.buttonStop : styles.buttonStart]} onPress={tracking ? stopTracking : startTracking}>
+          <Text style={styles.buttonText}>{tracking ? "Stop tracking" : "Start tracking"}</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -128,17 +118,33 @@ export default function MapScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignContent: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   map: {
-    width: '100%',
-    height: 550,
-    marginBottom: '40%',
+    width: "100%",
+    height: "80%",
   },
-  buttons: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+  buttonContainer: {
+    position: "absolute",
+    bottom: 50,
+    flexDirection: "row",
+    gap: 10,
+  },
+  button: {
+    backgroundColor: "#1E90FF",
     padding: 10,
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  buttonStart: {
+    backgroundColor: "green",
+  },
+  buttonStop: {
+    backgroundColor: "red",
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "bold",
   },
 });

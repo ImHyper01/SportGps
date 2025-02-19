@@ -1,29 +1,35 @@
-import * as SQLite from 'expo-sqlite';
+import * as SQLite from "expo-sqlite";
 
-const db = SQLite.openDatabaseSync('routes.db');
+export async function openDatabase() {
+    return await SQLite.openDatabaseAsync("routes.db");
+}
 
-//creeer database tabel
-export const setupDatabase = () => {
-    db.transaction((tx) => {
-        tx.executeSql(
-            "CREATE TABLE IF NOT EXISTS routes (id INTEGER PRIMARY KEY AUTOINCREMENT, data TEXT);"
+// db tabel aan maken
+export async function setupDatabase() {
+    const db = await openDatabase();
+    await db.execAsync(`
+        CREATE TABLE IF NOT EXISTS routes (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            data TEXT
         );
-    });
-};
+    `);
+    console.log("✅ Database setup complete");
+}
 
-//route opslaan als JSON
-export const saveRoute = (route) => {
-    db.transaction((tx) => {
-        tx.executeSql('INSERT INTO routes (data) VALUES (?);', [JSON.stringify(route)]);
-    });
-};
+// Route opslaan als JSON
+export async function saveRoute(route) {
+    const db = await openDatabase();
+    await db.runAsync(
+        "INSERT INTO routes (data) VALUES (?);",
+        [JSON.stringify(route)]
+    );
+    console.log("✅ Route saved");
+}
 
-//alle routes opslaan
-export const getRoutes = (callback) => {
-    db.transaction((tx) => {
-        tx.executeSql('SELECT * FROM routes;', [], (_, { rows }) => {
-            const routes = rows._array.map((row) => JSON.parse(row.data));
-            callback(routes);
-        });
-    });
-};
+// Routes ophalen
+export async function getRoutes() {
+    const db = await openDatabase();
+    const results = await db.getAllAsync("SELECT * FROM routes;");
+    
+    return results.map(row => JSON.parse(row.data));
+}

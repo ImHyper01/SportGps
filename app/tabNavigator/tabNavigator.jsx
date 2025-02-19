@@ -4,6 +4,8 @@ import { StyleSheet } from "react-native";
 import MapScreen from '../pages/mapScreen';
 import SettingScreen from '../pages/settingScreen';
 import saveRouteScreen from "../pages/savedRouteScreen";
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
 
 const Tab = createBottomTabNavigator();
 
@@ -19,24 +21,33 @@ export default function tabNavigator() {
         name="Map"
         component={MapScreen}
         options={{
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name="map" color={color} size={size} />
+            ),
           headerStyle: styles.header,        
           headerTitleStyle: styles.headerTitle,
+        }}
+      />
+        <Tab.Screen 
+        name="Route"
+        component={saveRouteScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="routes" color={color} size={size} />
+          ),
+            headerStyle: styles.header,
+            headerTitleStyle: styles.headerTitle,
         }}
       />
       <Tab.Screen
         name="Setting"
         component={SettingScreen}
         options={{
-          headerStyle: styles.header,
-          headerTitleStyle: styles.headerTitle,
-        }}
-      />
-      <Tab.Screen 
-        name="Route"
-        component={saveRouteScreen}
-        options={{
-          headerStyle: styles.header,
-          headerTitleStyle: styles.headerTitle,
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="cog" color={color} size={size} />
+          ),  
+            headerStyle: styles.header,
+            headerTitleStyle: styles.headerTitle,
         }}
       />
 
