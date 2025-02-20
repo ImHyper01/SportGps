@@ -2,19 +2,32 @@ import React, { useEffect, useState } from "react";
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, Button } from "react-native";
 import { getRoutes } from "../database/database";
 import MapView, { Polyline } from "react-native-maps";
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function HistoryScreen() {
   const [savedRoutes, setSavedRoutes] = useState([]);
   const [selectedRoute, setSelectedRoute] = useState(null);
 
   useEffect(() => {
-    const fetchRoutes = async () => {
-      const savedRoutes = await getRoutes();
-      setSavedRoutes(savedRoutes);
-    };
-
     fetchRoutes();
   }, []);
+
+  const fetchRoutes = async () => {
+    const routes = await getRoutes();
+    setSavedRoutes(routes);
+  };
+
+  const handleDeleteRoute = async (routeToDelete) => {
+    const updatedRoutes = savedRoutes.filter(route => route !== routeToDelete);
+    setSavedRoutes(updatedRoutes);
+    await deleteRoute(routeToDelete);
+  };
+
+//   const handleDeleteRoute = async (index) => {
+//     await handleDeleteRoute(index);
+//     fetchRoutes();
+//   };
+
 
   return (
     <View style={styles.container}>
@@ -58,7 +71,14 @@ export default function HistoryScreen() {
           >
             <Polyline coordinates={selectedRoute} strokeWidth={5} strokeColor="red" />
           </MapView>
-          <Button style={styles.backButton} title="terug naar lijst" onPress={() => setSelectedRoute(null)} />
+
+          <TouchableOpacity onPress={() => handleDeleteRoute(item)}>
+            <MaterialCommunityIcons name="delete" size={24} color="red" />
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.backButton} onPress={() => setSelectedRoute(null)}>
+            <Text style={styles.backButtonText}>Terug naar lijst </Text>
+          </TouchableOpacity>
         </View>
       )}
     </View>

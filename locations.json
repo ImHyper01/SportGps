@@ -1,0 +1,30 @@
+{
+    "locations": [
+      {
+        "name": "Punt 1",
+        "latitude": 51.911123,
+        "longitude": 4.361236
+      },
+      {
+        "name": "Eiffel Tower",
+        "latitude": 48.858844,
+        "longitude": 2.294351
+      },
+      {
+        "name": "Statue of Liberty",
+        "latitude": 40.689247,
+        "longitude": -74.044502
+      },
+      {
+        "name": "Tokyo Tower",
+        "latitude": 35.658581,
+        "longitude": 139.745438
+      },
+      {
+        "name": "Sydney Opera House",
+        "latitude": -33.856784,
+        "longitude": 151.215297
+      }
+    ]
+  }
+  

@@ -43,6 +43,26 @@ export default function MapScreen() {
   const [savedRoutes, setSavedRoutes] = useState([]);
   const mapRef = useRef(null);
   let locationSubscription = useRef(null);
+  const [locatie, setLocatie] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+
+  const getLocatie = async () => {
+    try {
+      const response = await fetch('https://stud.hosted.hr.nl/1027469/locations.json');
+      const json = await response.json();
+      setLocatie(json.locations);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    useEffect(() => {
+      getLocatie();
+    }, []);
+
 
   useEffect(() => {
     const initDB = async () => {
@@ -64,45 +84,51 @@ export default function MapScreen() {
   };
 
   const getCurrentLocation = async () => {
-    let { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== 'granted') {
-      console.log('locatiepremissie denied');
-      return;
-    } 
-    let location = await Location.getCurrentPositionAsync({});
-    setCurrentLocation({latitude: location.coords.latitude, longitude: location.coords.longitude});
-    setupGeofencing(location.coords.latitude, location.coords.longitude);
-  };
+  let { status } = await Location.requestForegroundPermissionsAsync();
+  if (status !== 'granted') {
+    console.log('locatiepremissie denied');
+    return;
+  } 
+  let location = await Location.getCurrentPositionAsync({});
+  setCurrentLocation({
+    latitude: location.coords.latitude, 
+    longitude: location.coords.longitude
+  });
 
-  const setupGeofencing = async (latitude, longitude) => {
-    let { status: backgroundStatus} = await Location.requestBackgroundPermissionsAsync();
+  // Herstart geofencing na locatie-update
+  setupGeofencing();
+};
+
+  const setupGeofencing = async () => {
+    let { status: backgroundStatus } = await Location.requestBackgroundPermissionsAsync();
     if (backgroundStatus !== 'granted') {
       console.log('backgroundlocatie denied');
       return;
     }
-
-    const geofence = [
-      {
-        identifier: "Startlocatie",
-        latitude,
-        longitude,
-        radius: 50,
-        notifyOnEnter: false,
-        notifyOnExit: true,
-      },
-      {
-        identifier: "Supermarkt",
-        latitude: 51.9225,
-        longitude: 4.47917,
-        radius: 100,
-        notifyOnEnter: true,
-        notifyOnExit: false,
-      },
-    ];
-
+  
+    if (!locatie || locatie.length === 0) {
+      console.log('Geen locaties gevonden.');
+      return;
+    }
+  
+    const geofences = locatie.map(loc => ({
+      identifier: loc.name,
+      latitude: loc.latitude,
+      longitude: loc.longitude,
+      radius: 100,
+      notifyOnEnter: true,
+      notifyOnExit: false,
+    }));
+  
     await Location.startGeofencingAsync(GEOFENCE_TASK, geofences);
-    console.log('Geofencing gestart!');
+    console.log('Geofencing gestart met dynamische locaties!');
   };
+
+  useEffect(() => {
+    if (locatie.length > 0) {
+      setupGeofencing();
+    }
+  }, [locatie]);
 
   const goToCurrentLocation = async () => {
     if(currentLocation) {
