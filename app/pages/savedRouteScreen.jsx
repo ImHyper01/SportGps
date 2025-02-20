@@ -58,7 +58,7 @@ export default function HistoryScreen() {
             </MapView>
 
             <TouchableOpacity onPress={() => handleDeleteRoute(item.id)}>
-  <             MaterialCommunityIcons name="delete" size={24} color="red" />
+                <MaterialCommunityIcons name="delete" size={24} color="red" />
             </TouchableOpacity>
 
           </TouchableOpacity>
@@ -79,14 +79,16 @@ export default function HistoryScreen() {
           >
             <Polyline coordinates={selectedRoute.data} strokeWidth={5} strokeColor="red" />
           </MapView>
-
-          <TouchableOpacity onPress={() => handleDeleteRoute(selectedRoute.id)}>
-            <MaterialCommunityIcons name="delete" size={24} color="red" />
+        
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.backButton} onPress={() => handleDeleteRoute(selectedRoute.id)}>
+            <Text style={styles.trashIcon}> Verwijderen </Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.backButton} onPress={() => setSelectedRoute(null)}>
             <Text style={styles.backButtonText}>Terug naar lijst</Text>
           </TouchableOpacity>
+          </View>
         </View>
       )}
     </View>
@@ -134,10 +136,25 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     alignItems: "center",
+    width: '40%',
   },
+
+  trashIcon: {
+    color: "#fff",
+    fontSize: 16,
+    width: '80%',
+  },
+
   backButtonText: {
     color: "#fff",
     fontSize: 16,
   },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 20,
+    marginTop: 10,
+  }
 });
 
