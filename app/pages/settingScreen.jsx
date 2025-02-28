@@ -4,7 +4,7 @@ import themeContext from "../theme/themeContext";
 import { SafeAreaView } from "react-native";
 
 
-export default function settingScreen() {
+export default function SettingScreen() {
     const theme = useContext(themeContext);
     const [darkmode, setDarkMode] = useState(false);
     
