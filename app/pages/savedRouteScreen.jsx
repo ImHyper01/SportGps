@@ -1,28 +1,31 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useCallback } from "react";
 import { View, Text, FlatList, StyleSheet, TouchableOpacity } from "react-native";
 import { getRoutes, deleteRoute } from "../database/database";
 import MapView, { Polyline } from "react-native-maps";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function HistoryScreen() {
   const [savedRoutes, setSavedRoutes] = useState([]);
   const [selectedRoute, setSelectedRoute] = useState(null);
-
-  useEffect(() => {
-    fetchRoutes();
-  }, []);
 
   const fetchRoutes = async () => {
     const routes = await getRoutes();
     setSavedRoutes(routes);
   };
 
+  useFocusEffect(
+    useCallback(() => {
+      fetchRoutes();
+    }, [])
+  );
+
   const handleDeleteRoute = async (routeId) => {
     console.log(`Probeer route te verwijderen met ID: ${routeId}`);
 
     if (!routeId) {
-        console.error("Geen geldig route ID ontvangen!");
-        return;
+      console.error("Geen geldig route ID ontvangen!");
+      return;
     }
 
     await deleteRoute(routeId);
@@ -30,9 +33,7 @@ export default function HistoryScreen() {
 
     // Herlaad routes na verwijderen
     fetchRoutes();
-};
-
-
+  };
 
   return (
     <View style={styles.container}>
@@ -58,9 +59,8 @@ export default function HistoryScreen() {
             </MapView>
 
             <TouchableOpacity onPress={() => handleDeleteRoute(item.id)}>
-                <MaterialCommunityIcons name="delete" size={24} color="red" />
+              <MaterialCommunityIcons name="delete" size={24} color="red" />
             </TouchableOpacity>
-
           </TouchableOpacity>
         )}
       />
@@ -80,14 +80,14 @@ export default function HistoryScreen() {
             <Polyline coordinates={selectedRoute.data} strokeWidth={5} strokeColor="red" />
           </MapView>
         
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.backButton} onPress={() => handleDeleteRoute(selectedRoute.id)}>
-            <Text style={styles.trashIcon}> Verwijderen </Text>
-          </TouchableOpacity>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.backButton} onPress={() => handleDeleteRoute(selectedRoute.id)}>
+              <Text style={styles.trashIcon}> Verwijderen </Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity style={styles.backButton} onPress={() => setSelectedRoute(null)}>
-            <Text style={styles.backButtonText}>Terug naar lijst</Text>
-          </TouchableOpacity>
+            <TouchableOpacity style={styles.backButton} onPress={() => setSelectedRoute(null)}>
+              <Text style={styles.backButtonText}>Terug naar lijst</Text>
+            </TouchableOpacity>
           </View>
         </View>
       )}
@@ -138,13 +138,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: '40%',
   },
-
   trashIcon: {
     color: "#fff",
     fontSize: 16,
     width: '80%',
   },
-
   backButtonText: {
     color: "#fff",
     fontSize: 16,
@@ -157,4 +155,3 @@ const styles = StyleSheet.create({
     marginTop: 10,
   }
 });
-
