@@ -9,6 +9,7 @@ export default function HistoryScreen() {
   const [savedRoutes, setSavedRoutes] = useState([]);
   const [selectedRoute, setSelectedRoute] = useState(null);
 
+  //hier fetch ik de routes uit de database
   const fetchRoutes = async () => {
     const routes = await getRoutes();
     setSavedRoutes(routes);
@@ -19,7 +20,7 @@ export default function HistoryScreen() {
       fetchRoutes();
     }, [])
   );
-
+  //functie geschreven om de route te verwijders uit de database.
   const handleDeleteRoute = async (routeId) => {
     console.log(`Probeer route te verwijderen met ID: ${routeId}`);
 
@@ -27,7 +28,7 @@ export default function HistoryScreen() {
       console.error("Geen geldig route ID ontvangen!");
       return;
     }
-
+    //hier geef ik input als je de route verwijderd
     await deleteRoute(routeId);
     console.log("Route succesvol verwijderd uit database!");
 

@@ -6,7 +6,7 @@ import SettingScreen from '../pages/settingScreen';
 import saveRouteScreen from "../pages/savedRouteScreen";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-
+//bottom tab navigator gecreert, hier doe ik de routes bepalen van de bottom navigators.
 const Tab = createBottomTabNavigator();
 
 export default function tabNavigator() {
