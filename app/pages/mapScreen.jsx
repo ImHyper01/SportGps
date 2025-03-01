@@ -46,7 +46,7 @@ export default function MapScreen() {
   const [locatie, setLocatie] = useState([]);
   const [loading, setLoading] = useState(true);
 
-
+//hier fetch json data van de stud hosted server en die laad ik vervolgens in
   const getLocatie = async () => {
     try {
       const response = await fetch('https://stud.hosted.hr.nl/1027469/locations.json');
@@ -82,7 +82,7 @@ export default function MapScreen() {
       return;
     }
   };
-
+//hier vraag ik de gebruiker voor de exacte locatie, als die accepteer gaat die naar de locatie toe, anders  niet.
   const getCurrentLocation = async () => {
   let { status } = await Location.requestForegroundPermissionsAsync();
   if (status !== 'granted') {
@@ -130,6 +130,7 @@ export default function MapScreen() {
     }
   }, [locatie]);
 
+  //functie geschreven die naar de exacte locatie gaat
   const goToCurrentLocation = async () => {
     if(currentLocation) {
       mapRef.current?.animateToRegion({
@@ -139,8 +140,9 @@ export default function MapScreen() {
         longitudeDelta: 0.0121,
       });
     }
-  };
+  }; 
 
+  //hier heb ik heb een functie geschreven die als ik op de button start tracking doet, dat die dan mijn locatie tracked.
   const startTracking = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== "granted") {
@@ -171,7 +173,7 @@ export default function MapScreen() {
       }
     );
   };
-
+//Als ik op stop tracking drukt, dan stopt de tracking door deze functie
   const stopTracking = async () => {
     if (locationSubscription.current) {
       locationSubscription.current.remove();
@@ -179,7 +181,7 @@ export default function MapScreen() {
     }
 
     setTracking(false);
-
+//hier saved ik de route, en die wordt naar de database gestuurd.
     if (route.length > 0) {
       await saveRoute(route);
       console.log("Route saved!");
@@ -214,7 +216,7 @@ export default function MapScreen() {
     </View>
   );
 }
-
+//styling
 const styles = StyleSheet.create({
   container: {
     flex: 1,
