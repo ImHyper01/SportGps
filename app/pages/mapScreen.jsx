@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Alert, View, StyleSheet, TouchableOpacity, Text } from "react-native";
-import MapView, { Polyline } from "react-native-maps";
+import MapView, { Polyline, Circle } from "react-native-maps";
 import * as Location from "expo-location";
 import * as Notifications from 'expo-notifications';
 import * as TaskManager from 'expo-task-manager';
@@ -8,31 +8,33 @@ import { setupDatabase, saveRoute, getRoutes } from "../database/database";
 
 const GEOFENCE_TASK = 'geofence-task';
 
-TaskManager.defineTask(GEOFENCE_TASK, ({ data, error }) => {
+TaskManager.defineTask(GEOFENCE_TASK, async ({ data, error }) => {
   if (error) {
     console.log('Geofence error:', error);
     return;
   }
 
-  if (data) {
-    const { eventType, region } = data;
-    let message = "";
+  if (!data || !data.eventType || !data.region) {
+    console.log('Geofence data ontbreekt.');
+    return;
+  }
 
-    if (eventType === Location.GeofencingEventType.Enter) {
-      message = `Je bent bij ${region.identifier} aangekomen!`;
-    } else if (eventType === Location.GeofencingEventType.Exit) {
-      message = `Je hebt ${region.identifier} verlaten!`;
-    }
+  const { eventType, region } = data;
 
-    if (message) {
-      Notifications.scheduleNotificationAsync({
-        content: {
-          title: 'Locatie update',
-          body: message,
-        },
-        trigger: null,
-      });
-    }
+  let message = "";
+  if (eventType === Location.GeofencingEventType.Enter) {
+    message = `Je bent bij ${region.identifier} aangekomen!`;
+  } else if (eventType === Location.GeofencingEventType.Exit) {
+    message = `Je hebt ${region.identifier} verlaten!`;
+  }
+
+  if (message) {
+    // Pop-up alert in plaats van notificatie
+    Alert.alert(
+      'Locatie update',
+      message,
+      [{ text: 'OK' }]
+    );
   }
 });
 
@@ -76,12 +78,16 @@ export default function MapScreen() {
   }, []);
 
   const requestNotificationPermissions = async () => {
-    const { status } = await Notifications.requestPermissionsAsync();
+    const { status } = await Notifications.getPermissionsAsync();
     if (status !== 'granted') {
-      console.log('Notificatie premissie denied')
-      return;
+      const { status: newStatus } = await Notifications.requestPermissionsAsync();
+      if (newStatus !== 'granted') {
+        console.log('Notificatiepermissie geweigerd');
+        return;
+      }
     }
-  };
+  };  
+
 //hier vraag ik de gebruiker voor de exacte locatie, als die accepteer gaat die naar de locatie toe, anders  niet.
   const getCurrentLocation = async () => {
   let { status } = await Location.requestForegroundPermissionsAsync();
@@ -99,36 +105,39 @@ export default function MapScreen() {
   setupGeofencing();
 };
 
-  const setupGeofencing = async () => {
-    let { status: backgroundStatus } = await Location.requestBackgroundPermissionsAsync();
-    if (backgroundStatus !== 'granted') {
-      console.log('backgroundlocatie denied');
-      return;
-    }
-  
-    if (!locatie || locatie.length === 0) {
-      console.log('Geen locaties gevonden.');
-      return;
-    }
-  
-    const geofences = locatie.map(loc => ({
-      identifier: loc.name,
-      latitude: loc.latitude,
-      longitude: loc.longitude,
-      radius: 100,
-      notifyOnEnter: true,
-      notifyOnExit: false,
-    }));
-  
-    await Location.startGeofencingAsync(GEOFENCE_TASK, geofences);
-    console.log('Geofencing gestart met dynamische locaties!');
-  };
+const setupGeofencing = async () => {
+  let { status: backgroundStatus } = await Location.requestBackgroundPermissionsAsync();
+  if (backgroundStatus !== 'granted') {
+    console.log('Background locatiepermissie geweigerd');
+    return;
+  }
+
+  if (!locatie || locatie.length === 0) {
+    console.log('Geen locaties gevonden.');
+    return;
+  }
+
+  const geofences = locatie.map(loc => ({
+    identifier: loc.name,
+    latitude: loc.latitude,
+    longitude: loc.longitude,
+    radius: 100,
+    notifyOnEnter: true,
+    notifyOnExit: true,
+  }));
+
+  console.log("Ingestelde geofences:", geofences); // Debugging
+
+  await Location.startGeofencingAsync(GEOFENCE_TASK, geofences);
+  console.log('Geofencing gestart!');
+};
 
   useEffect(() => {
-    if (locatie.length > 0) {
-      setupGeofencing();
-    }
-  }, [locatie]);
+  if (locatie.length > 0) {
+    console.log("Locaties ingeladen, starten met geofencing:", locatie);
+    setupGeofencing();
+  }
+}, [locatie]);
 
   //functie geschreven die naar de exacte locatie gaat
   const goToCurrentLocation = async () => {
@@ -202,6 +211,15 @@ export default function MapScreen() {
         showsUserLocation={true}
       >
         {route.length > 0 && <Polyline coordinates={route} strokeWidth={5} strokeColor="blue" />}
+        {locatie.map((loc, index) => (
+          <Circle
+            key={index}
+            center={{ latitude: loc.latitude, longitude: loc.longitude }}
+            radius={100} // Straal van 200 meter
+            strokeColor="rgba(0, 0, 255, 0.8)" // Blauwe rand
+            fillColor="rgba(0, 0, 255, 0.2)" // Lichtblauwe vulling
+          />
+        ))}
       </MapView>
 
       <View style={styles.buttonContainer}>

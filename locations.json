@@ -239,6 +239,99 @@
         "name": "Pernis",
         "latitude": 51.870689,
         "longitude": 4.396513
-    }
+    },
+    {
+        "name": "Eetcafé Aon't Bat",
+        "latitude": 50.7795,
+        "longitude": 5.7008
+      },
+      {
+        "name": "Brasserie La Meuse",
+        "latitude": 50.7762,
+        "longitude": 5.7007
+
+      },
+      {
+        "name": "Restaurant Vanille",
+        "latitude": 50.7754,
+        "longitude": 5.7038
+
+      },
+      {
+        "name": "Brasserie De Grens",
+        "latitude": 50.7801,
+        "longitude": 5.7020
+      },
+      {
+        "name": "Lan's Garden (Chinese)",
+        "latitude": 50.7805,
+        "longitude": 5.7030
+      },
+      {
+        "name": "Snackpoint 't Grillke",
+        "latitude": 50.7810,
+        "longitude": 5.7040
+      },
+      {
+        "name": "Cafetaria 't Stemke",
+        "latitude": 50.7815,
+        "longitude": 5.7050
+      },
+      {
+        "name": "Grillroom Ada",
+        "latitude": 50.7771,
+        "longitude": 5.7025
+      },
+      {
+        "name": "La Marmite",
+        "latitude": 50.7825,
+        "longitude": 5.7070
+      },
+      {
+        "name": "Plus Supermarkt Eijsden",
+        "latitude": 50.7774,
+        "longitude": 5.7087
+      },
+      {
+        "name": "Lidl Supermarkt Eijsden",
+        "latitude": 50.7781,
+        "longitude": 5.7098
+
+      },
+      {
+        "name": "Kruidvat Eijsden",
+        "latitude": 50.7777,
+        "longitude": 5.7087
+      },
+      {
+        "name": "Bakkerij Lekkerbek",
+        "latitude": 50.7845,
+        "longitude": 5.7110
+      },
+      {
+        "name": "Keurslagerij Pinckaers",
+        "latitude": 50.7850,
+        "longitude": 5.7120
+      },
+      {
+        "name": "IJssalon Angelati",
+        "latitude": 50.7778,
+        "longitude": 5.70271 
+      },
+      {
+        "name": "Fietsenwinkel Bike Service Eijsden",
+        "latitude": 50.7860,
+        "longitude": 5.7140
+      },
+      {
+        "name": "Jachthaven Portofino",
+        "latitude": 50.7865,
+        "longitude": 5.7150
+      },
+      {
+        "name": "test punt",
+        "latitude": 50.7744,
+        "longitude": 5.7101
+      }
   ]
 }
