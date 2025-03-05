@@ -1,337 +1,155 @@
 {
-  "locations": [
+    "locations": [
       {
-          "name": "Euromast",
-          "latitude": 51.905499,
-          "longitude": 4.472245
+        "name": "Euromast",
+        "latitude": 51.90545737708376,
+        "longitude": 4.466627186497187
       },
       {
-          "name": "Markthal",
-          "latitude": 51.920613,
-          "longitude": 4.482728
+        "name": "Markthal",
+        "latitude": 51.9201777066793,
+        "longitude": 4.486896582346061
       },
       {
-          "name": "Historisch Museum Vlaardingen",
-          "latitude": 51.911942,
-          "longitude": 4.349845
+        "name": "Historisch Museum Vlaardingen",
+        "latitude": 51.90587029832354,
+        "longitude": 4.3452802154828145
       },
       {
-          "name": "SS Rotterdam",
-          "latitude": 51.899383,
-          "longitude": 4.467944
+        "name": "SS Rotterdam",
+        "latitude": 51.89816683712128,
+        "longitude": 4.473238691047391 
       },
       {
-          "name": "De Kuip (Stadion Feijenoord)",
-          "latitude": 51.893086,
-          "longitude": 4.523117
+        "name": "De Kuip (Stadion Feijenoord)",
+        "latitude": 51.89391681833091,
+        "longitude": 4.523184787696982
       },
       {
-          "name": "Winkelcentrum Zuidplein",
-          "latitude": 51.885937,
-          "longitude": 4.487362
+        "name": "Winkelcentrum Zuidplein",
+        "latitude": 51.88679290331531,
+        "longitude": 4.490337197780165 
       },
       {
-          "name": "De Bijenkorf Rotterdam",
-          "latitude": 51.920338,
-          "longitude": 4.480064
+        "name": "De Bijenkorf Rotterdam",
+        "latitude":  51.92049121324241,
+        "longitude": 4.478621553117845 
       },
       {
-          "name": "Albert Heijn Vlaardingen Centrum",
-          "latitude": 51.911879,
-          "longitude": 4.349312
+        "name": "Albert Heijn Vlaardingen Centrum",
+        "latitude": 51.910399461552075,
+        "longitude": 4.340262470313956 
       },
       {
-          "name": "Jumbo Supermarkt Rotterdam Centrum",
-          "latitude": 51.924185,
-          "longitude": 4.477286
+        "name": "Jumbo Supermarkt Rotterdam Centrum",
+        "latitude": 51.920865470494476,
+        "longitude": 4.482571636669039 
       },
       {
-          "name": "Lidl Vlaardingen",
-          "latitude": 51.915412,
-          "longitude": 4.341894
+        "name": "Lidl Vlaardingen",
+        "latitude":  51.90996655041521,
+        "longitude": 4.345659052378762
       },
       {
-          "name": "Pathé Schouwburgplein",
-          "latitude": 51.922228,
-          "longitude": 4.473777
+        "name": "Pathé Schouwburgplein",
+        "latitude":  51.92094119053103,
+        "longitude": 4.473397253805419 
       },
       {
-          "name": "McDonald's Coolsingel",
-          "latitude": 51.922073,
-          "longitude": 4.478457
+        "name": "McDonald's Coolsingel",
+        "latitude": 51.92173126769261,
+        "longitude": 4.479772478249133
       },
       {
-          "name": "Loetje Rotterdam Kop van Zuid",
-          "latitude": 51.906214,
-          "longitude": 4.490322
+        "name": "Loetje Rotterdam Kop van Zuid",
+        "latitude": 51.90404136172629,
+        "longitude": 4.485423310789146 
       },
       {
-          "name": "Hotel New York",
-          "latitude": 51.905139,
-          "longitude": 4.484714
+        "name": "Hotel New York",
+        "latitude": 51.90424516378518,
+        "longitude": 4.484591297297297
       },
       {
-          "name": "Vlaardingse Markt",
-          "latitude": 51.911456,
-          "longitude": 4.349732
+        "name": "Rotterdam Centraal Station",
+        "latitude": 51.9243594809083,
+        "longitude": 4.470037011478852 
       },
       {
-          "name": "Rotterdam Centraal Station",
-          "latitude": 51.924377,
-          "longitude": 4.469961
+        "name": "Blaak Station",
+        "latitude": 51.92017039638104,
+        "longitude": 4.488971954288595
       },
       {
-          "name": "Blaak Station",
-          "latitude": 51.923475,
-          "longitude": 4.488037
+        "name": "Diergaarde Blijdorp",
+        "latitude": 51.92821014772885,
+        "longitude": 4.444024972362854
       },
       {
-          "name": "Diergaarde Blijdorp",
-          "latitude": 51.927171,
-          "longitude": 4.448667
+        "name": "Lijnbaan Rotterdam",
+        "latitude": 51.920834815659454,
+        "longitude": 4.476922123403961
       },
       {
-          "name": "Lijnbaan Rotterdam",
-          "latitude": 51.921402,
-          "longitude": 4.479651
+        "name": "Metro Rijnhaven",
+        "latitude": 51.903802852393774,
+        "longitude": 4.496855539625188
       },
       {
-          "name": "Rijnhavenbrug",
-          "latitude": 51.907639,
-          "longitude": 4.492444
+        "name": "Vroesenpark",
+        "latitude": 51.931016413266185,
+        "longitude": 4.4529560666103
       },
       {
-          "name": "Vroesenpark",
-          "latitude": 51.930028,
-          "longitude": 4.459671
+        "name": "Metro Vlaardingen Centrum",
+        "latitude": 51.903276383594495,
+        "longitude": 4.3440685414774896
       },
       {
-          "name": "Pannekoekenhuis De Familie",
-          "latitude": 51.912378,
-          "longitude": 4.350912
+        "name": "Metro Vlaardingen Oost",
+        "latitude": 51.91029313401175,
+        "longitude": 4.361653797297609
       },
       {
-          "name": "Kade 80",
-          "latitude": 51.908764,
-          "longitude": 4.350103
+        "name": "Metro Vlaardingen West",
+        "latitude": 51.90396418367526,
+        "longitude": 4.314690124641821
       },
       {
-          "name": "The Harbour Club Rotterdam",
-          "latitude": 51.926845,
-          "longitude": 4.510936
+        "name": "Metro Beurs",
+        "latitude": 51.918317796797915,
+        "longitude": 4.481345022456675
       },
       {
-          "name": "Bistro Twee33",
-          "latitude": 51.914512,
-          "longitude": 4.349667
+        "name": "Metro Dijkzigt",
+        "latitude": 51.912224146476824,
+        "longitude": 4.466812684192536 
       },
       {
-          "name": "Hoogvliet Supermarkt Rotterdam",
-          "latitude": 51.918721,
-          "longitude": 4.472191
+        "name": "Metro Kralingse Zoom",
+        "latitude": 51.921695009888104,
+        "longitude": 4.533064255957336 
       },
       {
-          "name": "HEMA Vlaardingen",
-          "latitude": 51.911789,
-          "longitude": 4.349101
+        "name": "Metro Maashaven",
+        "latitude": 51.89717947324724,
+        "longitude": 4.494724621017002
       },
       {
-          "name": "Primark Rotterdam",
-          "latitude": 51.923875,
-          "longitude": 4.477502
+        "name": "Metro Wilhelminaplein",
+        "latitude": 51.9074421078042,
+        "longitude": 4.49295214415376 
       },
       {
-          "name": "Coolblue Rotterdam",
-          "latitude": 51.920041,
-          "longitude": 4.478335
-      },
-      {
-          "name": "MediaMarkt Rotterdam",
-          "latitude": 51.921892,
-          "longitude": 4.478926
-      },
-      {
-        "name": "Vlaardingen Centrum",
-        "latitude": 51.911156,
-        "longitude": 4.348354
-    },
-    {
-        "name": "Vlaardingen Oost",
-        "latitude": 51.916289,
-        "longitude": 4.360627
-    },
-    {
-        "name": "Vlaardingen Hoog",
-        "latitude": 51.915649,
-        "longitude": 4.344089
-    },
-    {
-        "name": "Rotterdam Centraal",
-        "latitude": 51.924377,
-        "longitude": 4.469961
-    },
-    {
-        "name": "Beurs",
-        "latitude": 51.920331,
-        "longitude": 4.474015
-    },
-    {
-        "name": "Blaak",
-        "latitude": 51.923514,
-        "longitude": 4.488134
-    },
-    {
-        "name": "Dijkzigt",
-        "latitude": 51.909701,
-        "longitude": 4.478102
-    },
-    {
-        "name": "Kralingse Zoom",
-        "latitude": 51.920767,
-        "longitude": 4.508417
-    },
-    {
-        "name": "Maashaven",
-        "latitude": 51.895514,
-        "longitude": 4.492695
-    },
-    {
-        "name": "Wilhelminaplein",
-        "latitude": 51.911117,
-        "longitude": 4.495801
-    },
-    {
-        "name": "Spijkenisse Centrum",
-        "latitude": 51.847501,
-        "longitude": 4.341199
-    },
-    {
         "name": "Rotterdam Zuidplein",
-        "latitude": 51.885936,
-        "longitude": 4.487362
-    },
-    {
-        "name": "Slinge",
-        "latitude": 51.861287,
-        "longitude": 4.530022
-    },
-    {
-        "name": "Capelsebrug",
-        "latitude": 51.914757,
-        "longitude": 4.539586
-    },
-    {
-        "name": "Ommoord",
-        "latitude": 51.938933,
-        "longitude": 4.529031
-    },
-    {
-        "name": "Rotterdam Lombardijen",
-        "latitude": 51.884162,
-        "longitude": 4.521876
-    },
-    {
-        "name": "Oosterflank",
-        "latitude": 51.909266,
-        "longitude": 4.563585
-    },
-    {
-        "name": "Pernis",
-        "latitude": 51.870689,
-        "longitude": 4.396513
-    },
-    {
-        "name": "Eetcafé Aon't Bat",
-        "latitude": 50.7795,
-        "longitude": 5.7008
+        "latitude": 51.886827742047046,
+        "longitude": 4.490228486785254
       },
       {
-        "name": "Brasserie La Meuse",
-        "latitude": 50.7762,
-        "longitude": 5.7007
-
-      },
-      {
-        "name": "Restaurant Vanille",
-        "latitude": 50.7754,
-        "longitude": 5.7038
-
-      },
-      {
-        "name": "Brasserie De Grens",
-        "latitude": 50.7801,
-        "longitude": 5.7020
-      },
-      {
-        "name": "Lan's Garden (Chinese)",
-        "latitude": 50.7805,
-        "longitude": 5.7030
-      },
-      {
-        "name": "Snackpoint 't Grillke",
-        "latitude": 50.7810,
-        "longitude": 5.7040
-      },
-      {
-        "name": "Cafetaria 't Stemke",
-        "latitude": 50.7815,
-        "longitude": 5.7050
-      },
-      {
-        "name": "Grillroom Ada",
-        "latitude": 50.7771,
-        "longitude": 5.7025
-      },
-      {
-        "name": "La Marmite",
-        "latitude": 50.7825,
-        "longitude": 5.7070
-      },
-      {
-        "name": "Plus Supermarkt Eijsden",
-        "latitude": 50.7774,
-        "longitude": 5.7087
-      },
-      {
-        "name": "Lidl Supermarkt Eijsden",
-        "latitude": 50.7781,
-        "longitude": 5.7098
-
-      },
-      {
-        "name": "Kruidvat Eijsden",
-        "latitude": 50.7777,
-        "longitude": 5.7087
-      },
-      {
-        "name": "Bakkerij Lekkerbek",
-        "latitude": 50.7845,
-        "longitude": 5.7110
-      },
-      {
-        "name": "Keurslagerij Pinckaers",
-        "latitude": 50.7850,
-        "longitude": 5.7120
-      },
-      {
-        "name": "IJssalon Angelati",
-        "latitude": 50.7778,
-        "longitude": 5.70271 
-      },
-      {
-        "name": "Fietsenwinkel Bike Service Eijsden",
-        "latitude": 50.7860,
-        "longitude": 5.7140
-      },
-      {
-        "name": "Jachthaven Portofino",
-        "latitude": 50.7865,
-        "longitude": 5.7150
-      },
-      {
-        "name": "test punt",
-        "latitude": 50.7744,
-        "longitude": 5.7101
+        "name": "Metro Slinge",
+        "latitude": 51.8747557765352,
+        "longitude": 4.4777085653278546
       }
-  ]
-}
+    ]
+  }
+  

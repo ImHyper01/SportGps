@@ -6,8 +6,10 @@ import * as Notifications from 'expo-notifications';
 import * as TaskManager from 'expo-task-manager';
 import { setupDatabase, saveRoute, getRoutes } from "../database/database";
 
+//defineer de taak van de geofencing
 const GEOFENCE_TASK = 'geofence-task';
 
+//hier schrijf ik een functie als ik een locatie binnenloop of uitloopt dat er dan een message binnen komt.
 TaskManager.defineTask(GEOFENCE_TASK, async ({ data, error }) => {
   if (error) {
     console.log('Geofence error:', error);
@@ -29,7 +31,7 @@ TaskManager.defineTask(GEOFENCE_TASK, async ({ data, error }) => {
   }
 
   if (message) {
-    // Pop-up alert in plaats van notificatie
+    // Pop-up alert
     Alert.alert(
       'Locatie update',
       message,
@@ -61,11 +63,13 @@ export default function MapScreen() {
       }
     };
   
+    //hier roep ik de huidige locatie op met behulp van de useEffect hook
     useEffect(() => {
       getLocatie();
     }, []);
 
 
+  //hier haal ik alles op uit de database, zoals de routes, opgeslagen routes 
   useEffect(() => {
     const initDB = async () => {
       await setupDatabase();
