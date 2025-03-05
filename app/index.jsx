@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
         height: "100%",
         zIndex: 1,
     },
-    lgImage: {
+    lgImage: {  
         width: 380,
         height: 50,
         resizeMode: "cover",
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     },
     hmButton: {
         marginTop: "10%",
-        backgroundColor: "#ff5733",
+        backgroundColor: "#1E90FF",
         paddingVertical: 14,
         paddingHorizontal: 40,
         borderRadius: 10,
