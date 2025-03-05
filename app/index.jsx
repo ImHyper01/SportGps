@@ -2,11 +2,12 @@ import React, {useEffect, useState} from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-// Zorg ervoor dat de bestanden correct in de assets-map staan
+//laad een image in vanuit de assests map
 import logoImage from "../assets/images/logo/stLogo2.png";
 
 export default function Index() {
-  
+
+    //navigatie
     const navigation = useNavigation();
 
     return (
@@ -19,7 +20,7 @@ export default function Index() {
         </View>
     );  
 }
-
+//styling
 const styles = StyleSheet.create({
     container: {
         flex: 1,

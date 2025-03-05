@@ -13,7 +13,7 @@ export async function setupDatabase() {
             data TEXT
         );
     `);
-    console.log("✅ Database setup complete");
+    console.log("Database setup complete");
 }
 
 // Route opslaan als JSON
@@ -23,7 +23,7 @@ export async function saveRoute(route) {
         "INSERT INTO routes (data) VALUES (?);",
         [JSON.stringify(route)]
     );
-    console.log("✅ Route saved");
+    console.log("Route saved");
 }
 
 // Routes ophalen
