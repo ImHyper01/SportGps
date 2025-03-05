@@ -1,17 +1,16 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 // Zorg ervoor dat de bestanden correct in de assets-map staan
-// import bgImage from "../assets/images/background/bgImage.jpg";
 import logoImage from "../assets/images/logo/stLogo2.png";
 
 export default function Index() {
+  
     const navigation = useNavigation();
 
     return (
         <View style={styles.container}>
-            {/* <Image style={styles.bgImage} source={bgImage} /> */}
             <Text style={styles.header}>Welkom bij</Text>
             <Image style={styles.lgImage} source={logoImage} />
             <TouchableOpacity style={styles.hmButton} onPress={() => navigation.navigate("tabNavigator/tabNavigator")}>

@@ -1,13 +1,16 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useContext } from "react";
 import { View, Text, FlatList, StyleSheet, TouchableOpacity } from "react-native";
 import { getRoutes, deleteRoute } from "../database/database";
 import MapView, { Polyline } from "react-native-maps";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useFocusEffect } from '@react-navigation/native';
+import themeContext from "../theme/themeContext";
 
 export default function HistoryScreen() {
   const [savedRoutes, setSavedRoutes] = useState([]);
   const [selectedRoute, setSelectedRoute] = useState(null);
+
+  const theme = useContext(themeContext);
 
   //hier fetch ik de routes uit de database
   const fetchRoutes = async () => {

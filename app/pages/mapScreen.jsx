@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Alert, View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import MapView, { Polyline, Circle } from "react-native-maps";
 import * as Location from "expo-location";
 import * as Notifications from 'expo-notifications';
 import * as TaskManager from 'expo-task-manager';
 import { setupDatabase, saveRoute, getRoutes } from "../database/database";
+
 
 //defineer de taak van de geofencing
 const GEOFENCE_TASK = 'geofence-task';
@@ -22,7 +23,7 @@ TaskManager.defineTask(GEOFENCE_TASK, async ({ data, error }) => {
   }
 
   const { eventType, region } = data;
-
+//de message die komt
   let message = "";
   if (eventType === Location.GeofencingEventType.Enter) {
     message = `Je bent bij ${region.identifier} aangekomen!`;
@@ -80,7 +81,7 @@ export default function MapScreen() {
     requestNotificationPermissions();
     getCurrentLocation();
   }, []);
-
+//hier vraag ik de gebruiker als die berichten wilt krijgen of niet in het begi
   const requestNotificationPermissions = async () => {
     const { status } = await Notifications.getPermissionsAsync();
     if (status !== 'granted') {
@@ -219,7 +220,7 @@ const setupGeofencing = async () => {
           <Circle
             key={index}
             center={{ latitude: loc.latitude, longitude: loc.longitude }}
-            radius={100} // Straal van 200 meter
+            radius={100} // Straal van 100 meter
             strokeColor="rgba(0, 0, 255, 0.8)" // Blauwe rand
             fillColor="rgba(0, 0, 255, 0.2)" // Lichtblauwe vulling
           />
